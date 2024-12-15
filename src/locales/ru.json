@@ -117,6 +117,7 @@
   "course-updated-success": "Курс успешно обновлен",
   "course-update-failed": "Не удалось обновить курс",
   "course-deleted-success": "Курс успешно удален",
-  "course-delete-failed": "Не удалось удалить курс"
+  "course-delete-failed": "Не удалось удалить курс",
+  "export-to-excel": "Экспорт в эксель"
     }
   

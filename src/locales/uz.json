@@ -110,5 +110,7 @@
   "course-updated-success": "Kurs muvaffaqiyatli yangilandi",
   "course-update-failed": "Kursni yangilash muvaffaqiyatsiz tugadi",
   "course-deleted-success": "Kurs muvaffaqiyatli o'chirildi",
-  "course-delete-failed": "Kursni o'chirish muvaffaqiyatsiz tugadi"
+  "course-delete-failed": "Kursni o'chirish muvaffaqiyatsiz tugadi",
+  "export-to-excel": "Ekselga eksport"
+
 }
