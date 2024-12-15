@@ -190,7 +190,6 @@ const Home = () => {
   }
 };
 
-  
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
@@ -266,7 +265,7 @@ const Home = () => {
         <div className="text-center py-4 text-red-500">{error}</div>
       ) : (
         <>
-        <div className="flex justify-end">
+        {/* <div className="flex justify-end">
             <button
               className="btn mb-4 bg-gradient-to-t from-green-500 to-green-400 text-white"
               onClick={handleExportToExcel}
@@ -274,7 +273,7 @@ const Home = () => {
               <HiOutlineDocumentArrowUp size={21} />
               {t("export-to-excel")}
             </button>
-          </div>
+          </div> */}
           <div ref={printRef}>
             <OrderTable
               currentOrders={currentOrders}
