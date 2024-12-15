@@ -25,5 +25,7 @@ jobs:
 
           git pull origin main && \
 
-          npm install --force
+          npm install --force && \
+
+          npm run build
           "
