@@ -171,7 +171,7 @@ const Home = () => {
     const orderIds = filteredOrders.map(order => order._id);
 
     const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}export/order`,
+      `${process.env.REACT_APP_API_URL}/export/order`,
       {
         params: { orderIds: orderIds.join(',') },
         responseType: "blob",
