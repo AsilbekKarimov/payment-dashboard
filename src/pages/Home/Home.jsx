@@ -167,28 +167,27 @@ const Home = () => {
 
 
   const handleExportToExcel = async () => {
-  try {
-    const orderIds = filteredOrders.map(order => order._id);
-
-    const response = await axios.get(
-      `https://api.norbekovgroup.uz/api/v1/export/order`,
-      {
-        params: { orderIds: orderIds.join(',') },
-        responseType: "blob",
-      }
-    );
-
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "orders_data.xlsx");
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
-  } catch (error) {
-    console.error("Error exporting to Excel:", error);
-  }
-};
+    try {
+      const orderIds = filteredOrders.map((order) => order._id); // Array of IDs
+  
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/export/order`, // Correct endpoint
+        { orderIds }, // Send orderIds in the body
+        { responseType: "blob" } // Axios option for binary data
+      );
+  
+      // Create a blob URL and download the file
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "orders_data.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error exporting to Excel:", error);
+    }
+  };  
 
 
   const handlePageChange = (pageNumber) => {
@@ -265,7 +264,7 @@ const Home = () => {
         <div className="text-center py-4 text-red-500">{error}</div>
       ) : (
         <>
-        {/* <div className="flex justify-end">
+        <div className="flex justify-end">
             <button
               className="btn mb-4 bg-gradient-to-t from-green-500 to-green-400 text-white"
               onClick={handleExportToExcel}
@@ -273,7 +272,7 @@ const Home = () => {
               <HiOutlineDocumentArrowUp size={21} />
               {t("export-to-excel")}
             </button>
-          </div> */}
+          </div>
           <div ref={printRef}>
             <OrderTable
               currentOrders={currentOrders}

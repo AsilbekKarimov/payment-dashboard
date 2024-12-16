@@ -34,7 +34,6 @@ const Filter = ({ courses = [], t }) => {
           className="block w-full px-2 py-1 border border-gray-300 rounded-md text-gray-700 bg-white text-xs focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="">{t("all-statuses")}</option>
-          <option value="НЕ ОПЛАЧЕНО">{t("failed")}</option>
           <option value="ВЫСТАВЛЕНО">{t("process")}</option>
           <option value="ОПЛАЧЕНО">{t("success")}</option>
           <option value="ОТМЕНЕНО">{t("cancelled")}</option>
