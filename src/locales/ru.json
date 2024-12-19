@@ -118,6 +118,8 @@
   "course-update-failed": "Не удалось обновить курс",
   "course-deleted-success": "Курс успешно удален",
   "course-delete-failed": "Не удалось удалить курс",
-  "export-to-excel": "Экспорт в эксель"
-    }
+  "export-to-excel": "Экспорт в эксель",
+  "order-deleted-success": "Заказ удален успешно!",
+  "order-deleted-error": "Не удалось удалить заказ"
+}
   

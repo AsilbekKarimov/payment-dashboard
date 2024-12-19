@@ -111,6 +111,7 @@
   "course-update-failed": "Kursni yangilash muvaffaqiyatsiz tugadi",
   "course-deleted-success": "Kurs muvaffaqiyatli o'chirildi",
   "course-delete-failed": "Kursni o'chirish muvaffaqiyatsiz tugadi",
-  "export-to-excel": "Ekselga eksport"
-
+  "export-to-excel": "Ekselga eksport",
+  "order-deleted-success": "Buyurtma muvaffaqiyatli o'chirildi!", 
+  "order-deleted-error": "Buyurtmani o'chirishda xatolik yuz berdi"
 }

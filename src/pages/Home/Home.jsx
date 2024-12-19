@@ -11,7 +11,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import CryptoJS from "crypto-js";
 import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
-
+import { ToastContainer } from "react-toastify";
 
 const Home = () => {
   const [orders, setOrders] = useState([]);
@@ -25,36 +25,51 @@ const Home = () => {
   const { t } = useTranslation();
   const printRef = useRef();
 
-  const secretKey = process.env.REACT_APP_SECRET_KEY || 'your-secret-key';
+  const secretKey = process.env.REACT_APP_SECRET_KEY || "your-secret-key";
 
   const decryptToken = () => {
-    const encryptedToken = localStorage.getItem('token');
+    const encryptedToken = localStorage.getItem("token");
     const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
   };
 
   const handleDownloadPdf = async () => {
     const element = printRef.current;
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdf = new jsPDF("p", "mm", "a4");
     const pageHeight = pdf.internal.pageSize.getHeight();
     const canvas = await html2canvas(element, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
+    const imgData = canvas.toDataURL("image/png");
     const imgProps = pdf.getImageProperties(imgData);
-    const imgHeight = (imgProps.height * pdf.internal.pageSize.getWidth()) / imgProps.width;
+    const imgHeight =
+      (imgProps.height * pdf.internal.pageSize.getWidth()) / imgProps.width;
     let heightLeft = imgHeight;
     let position = 0;
 
-    pdf.addImage(imgData, 'PNG', 0, position, pdf.internal.pageSize.getWidth(), imgHeight);
+    pdf.addImage(
+      imgData,
+      "PNG",
+      0,
+      position,
+      pdf.internal.pageSize.getWidth(),
+      imgHeight
+    );
     heightLeft -= pageHeight;
 
     while (heightLeft >= 0) {
       position = heightLeft - imgHeight;
       pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, pdf.internal.pageSize.getWidth(), imgHeight);
+      pdf.addImage(
+        imgData,
+        "PNG",
+        0,
+        position,
+        pdf.internal.pageSize.getWidth(),
+        imgHeight
+      );
       heightLeft -= pageHeight;
     }
 
-    pdf.save('transactions.pdf');
+    pdf.save("transactions.pdf");
   };
 
   const {
@@ -165,18 +180,16 @@ const Home = () => {
     currentPage * itemsPerPage
   );
 
-
   const handleExportToExcel = async () => {
     try {
-      const orderIds = filteredOrders.map((order) => order._id); // Array of IDs
-  
+      const orderIds = filteredOrders.map((order) => order._id);
+
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/export/order`, // Correct endpoint
-        { orderIds }, // Send orderIds in the body
-        { responseType: "blob" } // Axios option for binary data
+        `${process.env.REACT_APP_API_URL}/export/order`,
+        { orderIds },
+        { responseType: "blob" }
       );
-  
-      // Create a blob URL and download the file
+
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
@@ -187,8 +200,7 @@ const Home = () => {
     } catch (error) {
       console.error("Error exporting to Excel:", error);
     }
-  };  
-
+  };
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
@@ -225,7 +237,7 @@ const Home = () => {
         );
       case "ОТМЕНЕНО":
         return (
-          <span className="px-2 py-1 rounded bg-red-500 text-red-100 text-[10px] font-semibold">
+          <span className="px-2 py-1 rounded bg-red-100 text-red-700 text-[10px] font-semibold">
             {t("cancelled")}
           </span>
         );
@@ -253,6 +265,7 @@ const Home = () => {
 
   return (
     <div className="px-5 md:px-8 py-2">
+    <ToastContainer />
       <h1 className="text-2xl mb-2 font-semibold">{t("orders")}</h1>
 
       <Filter courses={courses} t={t} />
@@ -264,7 +277,7 @@ const Home = () => {
         <div className="text-center py-4 text-red-500">{error}</div>
       ) : (
         <>
-        <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <button
               className="btn mb-4 bg-gradient-to-t from-green-500 to-green-400 text-white"
               onClick={handleExportToExcel}
@@ -272,7 +285,7 @@ const Home = () => {
               <HiOutlineDocumentArrowUp size={21} />
               {t("export-to-excel")}
             </button>
-          </div>
+          </div> */}
           <div ref={printRef}>
             <OrderTable
               currentOrders={currentOrders}
@@ -282,6 +295,14 @@ const Home = () => {
               handleItemsPerPageChange={handleItemsPerPageChange}
               itemsPerPage={itemsPerPage}
               setSelectedOrder={setSelectedOrder}
+              onDeleteOrder={(orderId) => {
+                setOrders((prevOrders) =>
+                  prevOrders.filter((order) => order._id !== orderId)
+                );
+                setFilteredOrders((prevFilteredOrders) =>
+                  prevFilteredOrders.filter((order) => order._id !== orderId)
+                );
+              }}
             />
           </div>
 
